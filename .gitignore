@@ -1,0 +1,18 @@
+# Python related
+*.pyc
+__pycache__/
+
+# Virtual environment
+env/
+venv/
+
+# IDE related
+.vscode/
+.idea/
+
+# Flask related
+instance/
+*.db
+
+# Log files
+*.log

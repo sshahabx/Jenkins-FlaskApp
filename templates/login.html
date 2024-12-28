@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Account - Task Master{% endblock %}
+
+{% block body %}
+
+    <div class="content">
+        <h1>Create Account</h1>
+
+        <form action="/create_account" method="POST" class="account-form">
+            <!-- Username -->
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+
+            <!-- Password -->
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+
+            <!-- Confirm Password -->
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+
+            <!-- Submit Button -->
+            <input type="submit" value="Create Account">
+        </form>
+    </div>
+
+{% endblock %}
