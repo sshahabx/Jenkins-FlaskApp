@@ -2,63 +2,76 @@ pipeline {
     agent any
 
     environment {
-        // Set environment variables if needed
-        FLASK_ENV = 'production'
+        // Python version for virtual environment
+        PYTHON_VERSION = 'python3'
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                // Clone the repository from GitHub
-                git 'https://github.com/yourusername/your-flask-app.git'
+                // Checkout code from the repository
+                checkout scm
             }
         }
 
         stage('Set Up Virtual Environment') {
             steps {
-                // Set up virtual environment and install dependencies
-                sh 'python3 -m venv venv'
-                sh 'source venv/bin/activate && pip install -r requirements.txt'
+                // Create a virtual environment and activate it
+                script {
+                    sh """
+                    ${PYTHON_VERSION} -m venv venv
+                    source venv/bin/activate
+                    """
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Install required dependencies from requirements.txt
+                script {
+                    sh """
+                    source venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    """
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run tests (if any)
-                sh 'source venv/bin/activate && pytest'
+                // Run tests (Optional, add your test commands here)
+                script {
+                    sh """
+                    source venv/bin/activate
+                    pytest --maxfail=1 --disable-warnings -q
+                    """
+                }
             }
         }
 
         stage('Build') {
             steps {
-                // Build the application (optional)
-                echo 'Building the Flask application...'
+                // Optional build stage if you have a build process (e.g., building assets)
+                echo 'Building the application (if needed)'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the application (this could be SSH, Docker, etc.)
-                // Example: SSH to a server and restart the Flask app
-                sh 'ssh user@your-server "cd /path/to/app && git pull origin master && sudo systemctl restart flask-app"'
+                // Deploy the application (add your deployment script here)
+                // For example, use SCP, FTP, or any deployment tool to push your app to the server.
+                echo 'Deploying Flask app to production'
             }
         }
     }
 
     post {
         always {
-            // Clean up actions (if needed)
-            cleanWs()
-        }
-
-        success {
-            // Notify on success (optional)
-            echo 'Pipeline executed successfully!'
-        }
-
-        failure {
-            // Notify on failure (optional)
-            echo 'Pipeline failed!'
+            // Clean up actions after the pipeline execution
+            echo 'Cleaning up resources...'
+            sh 'rm -rf venv' // Remove virtual environment
         }
     }
 }
