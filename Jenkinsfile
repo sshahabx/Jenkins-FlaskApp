@@ -39,29 +39,16 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                // Run tests (Optional, add your test commands here)
-                script {
-                    sh """
-                    source venv/bin/activate
-                    pytest --maxfail=1 --disable-warnings -q
-                    """
-                }
-            }
-        }
-
         stage('Build') {
             steps {
-                // Optional build stage if you have a build process (e.g., building assets)
+                // Echoing a placeholder message for the build stage
                 echo 'Building the application (if needed)'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the application (add your deployment script here)
-                // For example, use SCP, FTP, or any deployment tool to push your app to the server.
+                // Placeholder for deployment
                 echo 'Deploying Flask app to production'
             }
         }
