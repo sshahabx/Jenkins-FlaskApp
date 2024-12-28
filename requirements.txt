@@ -2,5 +2,5 @@ Flask==2.3.3
 Flask-SQLAlchemy==3.0.2
 Flask-Limiter==2.0.1
 Werkzeug==2.3.3
-Flask-Talisman==2.0.0
-pytest==7.4.2
+Flask-Talisman==1.1.0
+pytest==7.4.0
